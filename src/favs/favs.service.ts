@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { Pathname } from 'src/database/interface/pathname.type';
+import { Pathname } from '../model/types/pathname.type';
 
 @Injectable()
 export class FavsService {
