@@ -16,7 +16,6 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
-
 # OS
 .DS_Store
 
