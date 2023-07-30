@@ -1,5 +1,5 @@
-import { Album } from '../interface/album.interface';
-import { Artist } from '../interface/artist.interface';
-import { Track } from '../interface/track.interface';
+import { IAlbum } from '../interface/album.interface';
+import { IArtist } from '../interface/artist.interface';
+import { ITrack } from '../interface/track.interface';
 
-export type Entities = Artist[] | Track[] | Album[];
+export type TEntities = IArtist[] | ITrack[] | IAlbum[];

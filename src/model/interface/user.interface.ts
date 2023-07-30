@@ -1,4 +1,4 @@
-export interface UserResp {
+export interface IUser {
     id: string;
     login: string;
     version: number;

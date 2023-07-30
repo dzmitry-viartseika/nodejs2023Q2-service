@@ -4,11 +4,11 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 
-import { Favorites } from '../../model/interface/favorites.interface';
-import { Pathname } from '../../model/types/pathname.type';
+import { IFavorites } from '../../model/interface/favorites.interface';
+import { TPathname } from '../../model/types/pathname.type';
 
 export class InMemoryFavoriteRepository {
-    private _repository: Favorites;
+    private _repository: IFavorites;
 
     constructor() {
         this._repository = {
@@ -18,7 +18,7 @@ export class InMemoryFavoriteRepository {
         };
     }
 
-    async create(id: string, pathname: Pathname): Promise<boolean> {
+    async create(id: string, pathname: TPathname): Promise<boolean> {
         try {
             this._repository[pathname].push(id);
 
@@ -42,7 +42,7 @@ export class InMemoryFavoriteRepository {
         }
     }
 
-    async delete(id: string, pathname: Pathname) {
+    async delete(id: string, pathname: TPathname) {
         try {
             const items = this._repository[pathname];
 
@@ -62,7 +62,7 @@ export class InMemoryFavoriteRepository {
         }
     }
 
-    async deleteId(id: string, pathname: Pathname) {
+    async deleteId(id: string, pathname: TPathname) {
         try {
             const items = this._repository[pathname];
 

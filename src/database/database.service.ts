@@ -9,8 +9,8 @@ import { UpdateAlbumDto } from 'src/album/dto/update-album.dto';
 import { UpdateArtistDto } from 'src/artist/dto/update-artist.dto';
 import { UpdateTrackDto } from 'src/track/dto/update-track.dto';
 import { FavoritesEntity } from 'src/favs/entities/fav.entity';
-import { Entities } from '../model/types/entities.type';
-import { Pathname } from '../model/types/pathname.type';
+import { TEntities } from '../model/types/entities.type';
+import { TPathname } from '../model/types/pathname.type';
 import {InMemoryGenericRepository} from "./in-memory/in-memory-generic-repository";
 import {InMemoryFavoriteRepository} from "./in-memory/in-memory-favorites-repository";
 
@@ -31,7 +31,7 @@ export class DatabaseService implements IDatabaseService {
     );
     readonly favorites = new InMemoryFavoriteRepository();
 
-    async create(id: string, pathname: Pathname) {
+    async create(id: string, pathname: TPathname) {
         const item = await this.checkId(id, pathname);
 
         if (!item)
@@ -47,7 +47,7 @@ export class DatabaseService implements IDatabaseService {
     async findMany() {
         const entitiesObject = await this.favorites.findMany();
 
-        const keys = Object.keys(entitiesObject) as unknown as Pathname[];
+        const keys = Object.keys(entitiesObject) as unknown as TPathname[];
 
         const responseObject = await keys.reduce(async (acc, path) => {
             const reduceEntitiesObject = await acc;
@@ -57,7 +57,7 @@ export class DatabaseService implements IDatabaseService {
                 const entity = await this[path].findUnique(id);
 
                 return entity ? [...items, entity] : items;
-            }, Promise.resolve([] as Entities));
+            }, Promise.resolve([] as TEntities));
 
             return { ...reduceEntitiesObject, [path]: entities };
         }, Promise.resolve({} as FavoritesEntity));
@@ -65,8 +65,8 @@ export class DatabaseService implements IDatabaseService {
         return responseObject;
     }
 
-    async remove(id: string, pathname: Pathname) {
-        const fields = ['artists', 'albums', 'tracks'] as Pathname[];
+    async remove(id: string, pathname: TPathname) {
+        const fields = ['artists', 'albums', 'tracks'] as TPathname[];
         await this[pathname].delete(id);
 
         await this.favorites.deleteId(id, pathname);
@@ -78,7 +78,7 @@ export class DatabaseService implements IDatabaseService {
         }
     }
 
-    async checkId(id: string, pathname: Pathname) {
+    async checkId(id: string, pathname: TPathname) {
         return await this[pathname].findUnique(id);
     }
 }
